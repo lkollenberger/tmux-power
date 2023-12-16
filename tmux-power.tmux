@@ -28,6 +28,7 @@ user_icon="$(tmux_get '@tmux_power_user_icon' '')"
 time_icon="$(tmux_get '@tmux_power_time_icon' '')"
 date_icon="$(tmux_get '@tmux_power_date_icon' '')"
 show_user="$(tmux_get @tmux_power_show_user true)"
+show_suspend="$(tmux_get @tmux_power_show_suspend false)"
 show_upload_speed="$(tmux_get @tmux_power_show_upload_speed false)"
 show_download_speed="$(tmux_get @tmux_power_show_download_speed false)"
 show_web_reachable="$(tmux_get @tmux_power_show_web_reachable false)"
@@ -110,6 +111,10 @@ tmux_set status-left-length 150
 user=$(whoami)
 
 LS="#[fg=$G04,bg=$TC,bold]"
+if "$show_suspend"; then
+	tmux_set @tmux_power_suspend_status_icon ' '
+	LS="$LS #{@tmux_power_suspend_status_icon} #[fg=$TC,bg=$G06,nobold]$rarrow#[fg=$TC,bg=$G06]"
+fi
 if "$show_user"; then
 	LS="$LS $user_icon $user@#h #[fg=$TC,bg=$G06,nobold]$rarrow#[fg=$TC,bg=$G06] $session_icon #S "
 else
